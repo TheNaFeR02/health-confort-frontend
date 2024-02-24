@@ -27,10 +27,9 @@ export default withAuth(
       // The `authorized` callback determines if a request is authorized.
       authorized: ({ token }) => {
         // The request is authorized if both `token` and `token.key` exist.
-        return !!token && !!token.key && !token.error;
+        return !!token && !!token.key;
       },
     },
-
 
     // The pages configuration should match the same configuration in [...nextauth].ts. This is so that the next-auth Middleware is aware of your custom pages, so it won't end up redirecting to itself when an unauthenticated condition is met.
     pages: {
@@ -44,7 +43,7 @@ export default withAuth(
 // Ref: https://nextjs.org/docs/app/building-your-application/routing/middleware#matcher
 export const config = {
   // matcher: ["/profile", "/mails/:path*", "/client"], Protects specific pages. 
-  matcher: ["/((?!signup|password-reset|account-confirm-email|confirm-email|error).*)"], // Protects all the pages.
+  matcher: ["/((?!signup|password-reset|account-confirm-email|confirm-email|error|google-callback).*)"], // Protects all the pages.
 
   // matcher: ["/"],
 }

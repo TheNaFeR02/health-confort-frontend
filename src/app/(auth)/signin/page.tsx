@@ -145,11 +145,9 @@ export default function SignIn() {
   const signInWithGoogle = async () => {
     console.log("signing in with google")
     signIn("google", {
-      callbackUrl: "/dashboard",
+      callbackUrl: "/google-callback",
       redirect: true,
     });
-
-    
   }
 
   return (

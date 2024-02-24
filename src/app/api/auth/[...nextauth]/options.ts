@@ -1,4 +1,4 @@
-import { Account, NextAuthOptions } from "next-auth";
+import { Account, NextAuthOptions, getServerSession } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { User } from "next-auth"
 import { parseURL } from "@/utils/parseURL";
@@ -8,6 +8,8 @@ import { userSchema } from "@/types/userSchema"
 import { getUserDetails } from "@/services/getUserDetails"
 import GoogleProvider from "next-auth/providers/google";
 import { signinGoogle } from "@/services/signinGoogle";
+import { redirect } from "next/navigation";
+import { getSession } from "next-auth/react";
 
 const clientId = process.env.GOOGLE_CLIENT_ID;
 const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
@@ -54,10 +56,10 @@ export const options: NextAuthOptions = {
 
   callbacks: {
     // Ref: https://authjs.dev/guides/basics/role-based-access-control#persisting-the-role
-    async signIn({ user, account, profile }) {
-      console.log("-----------SIGN IN CALLBACK-----------")
-      return true
-    },
+    // async signIn({ user, account, profile }) {
+    //   console.log("-----------SIGN IN CALLBACK-----------")
+    //   return true
+    // },
 
     async jwt({ token, user, account }) {
       // either way i would need to save the token in the jwt callback. So maybe the await signinGoogle(id_token) wont be able to put in the signin callback
@@ -66,7 +68,7 @@ export const options: NextAuthOptions = {
         token.role = user.role
         token.key = user.key
         token.email = user.email
-      } 
+      }
       // token.role = user.role
       // // if user authenticates with google, the token here user.key will be undefined
       // // we use the account object to get the user id_token of google and then use it for the backend
@@ -85,12 +87,9 @@ export const options: NextAuthOptions = {
           return token
         } catch (error) {
           console.error("error", error);
-          token.error = error; // if we assign an error to the token, the middleware will redirect to the error page
+          token.error = error; // if we assign an error to the token, we can use it then in pages to redirect to the error page 
         }
       }
-
-
-
       return token
     },
 
@@ -101,12 +100,25 @@ export const options: NextAuthOptions = {
         session.user.key = token.key
         session.user.email = token.email
       }
-
       session.user.error = token.error;
-      
-
       return session
     },
+
+    async redirect({ url, baseUrl }) {
+
+      // if the user is authenticated with google, 
+      // we redirect to the google-callback page which handles wheter the user is authenticated or not
+      if (url.includes("/google-callback")) {
+        return '/google-callback';
+      }
+
+      // This is the default behavior,
+      // Allows relative callback URLs
+      if (url.startsWith("/")) return `${baseUrl}${url}`
+      // Allows callback URLs on the same origin
+      else if (new URL(url).origin === baseUrl) return url
+      return baseUrl
+    }
 
   },
 
@@ -114,6 +126,7 @@ export const options: NextAuthOptions = {
     // /api/auth/signin is the built-in signin page that is used by the CredentialsProvider
     // if you want to use your own signin page, you can do so by specifying the path to your custom signin page here
     // Ref: https://next-auth.js.org/configuration/pages
+    
     signIn: "/signin",
     error: "/error",
   }
