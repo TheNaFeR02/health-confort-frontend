@@ -6,7 +6,15 @@ import { z } from "Zod"
 import { loginUser } from "@/services/loginUser";
 import { userSchema } from "@/types/userSchema"
 import { getUserDetails } from "@/services/getUserDetails"
+import GoogleProvider from "next-auth/providers/google";
+import { signinGoogle } from "@/services/signinGoogle";
 
+const clientId = process.env.GOOGLE_CLIENT_ID;
+const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
+
+if (!clientId || !clientSecret) {
+  throw new Error('Missing required environment variables GOOGLE_CLIENT_ID and/or GOOGLE_CLIENT_SECRET');
+}
 
 export const options: NextAuthOptions = {
   providers: [
@@ -37,29 +45,65 @@ export const options: NextAuthOptions = {
           throw error instanceof Error ? new Error(error.message) : error;
         }
       }
-    })
+    }),
+    GoogleProvider({
+      clientId: clientId,
+      clientSecret: clientSecret,
+    }),
   ],
 
   callbacks: {
     // Ref: https://authjs.dev/guides/basics/role-based-access-control#persisting-the-role
+    async signIn({ user, account, profile }) {
+      console.log("-----------SIGN IN CALLBACK-----------")
+      return true
+    },
 
     async jwt({ token, user, account }) {
-
+      // either way i would need to save the token in the jwt callback. So maybe the await signinGoogle(id_token) wont be able to put in the signin callback
+      console.log("-----------JWT CALLBACK-----------")
       if (user) {
         token.role = user.role
-        token.key = user.key // Add the user key to the token, this is that will allow to the middleware to check if the user is authenticated. (authorize callback in middleware.ts)
+        token.key = user.key
+        token.email = user.email
+      } 
+      // token.role = user.role
+      // // if user authenticates with google, the token here user.key will be undefined
+      // // we use the account object to get the user id_token of google and then use it for the backend
+      // token.key = user.key // Add the user key to the token, this is that will allow to the middleware to check if the user is authenticated. (authorize callback in middleware.ts)
+      // token.email = user.email
+
+
+      if (account?.provider === "google" && account.id_token) {
+        console.log("account", account)
+        const id_token = account.id_token;
+
+        try {
+          const apiToken = await signinGoogle(id_token);
+          console.log("token succesfully retrieved w/ Google Provider: ", apiToken);
+          token.key = apiToken.key
+          return token
+        } catch (error) {
+          console.error("error", error);
+          token.error = error; // if we assign an error to the token, the middleware will redirect to the error page
+        }
       }
+
+
 
       return token
     },
 
     async session({ session, token }) {
-
+      console.log("-----------SESSION CALLBACK-----------")
       if (session?.user) {
         session.user.role = token.role
         session.user.key = token.key
         session.user.email = token.email
       }
+
+      session.user.error = token.error;
+      
 
       return session
     },
@@ -71,6 +115,7 @@ export const options: NextAuthOptions = {
     // if you want to use your own signin page, you can do so by specifying the path to your custom signin page here
     // Ref: https://next-auth.js.org/configuration/pages
     signIn: "/signin",
+    error: "/error",
   }
 
 }

@@ -41,6 +41,7 @@ type SnackbarState = {
   type?: 'error' | 'success';
 };
 
+// url params
 type ParamsType = {
   params: [number, string]
 };
@@ -56,7 +57,6 @@ export default function PasswordResetConfirm({ params }: { params: ParamsType })
   const router = useRouter();
 
   const [uid, token] = params.params;
-
 
   const { register, handleSubmit, formState: { errors } } = useForm<PasswordResetForm>({
     resolver: zodResolver(passwordResetSchema),
@@ -81,13 +81,12 @@ export default function PasswordResetConfirm({ params }: { params: ParamsType })
     console.log(data);
 
     try {
-
       const response = await passwordReset(data, uid.toString(), token);
 
       setSnackbar({ ...snackbar, open: true, message: 'Your new password has been succesfully changed!', type: 'success' });
       setTimeout(() => {
         router.push('/signin');
-      }, 3000);
+      }, 2000);
     } catch (error) {
       if (error instanceof ServerKnownError) {
         if (error.serverErrors) {

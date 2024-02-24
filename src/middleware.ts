@@ -27,7 +27,7 @@ export default withAuth(
       // The `authorized` callback determines if a request is authorized.
       authorized: ({ token }) => {
         // The request is authorized if both `token` and `token.key` exist.
-        return !!token && !!token.key;
+        return !!token && !!token.key && !token.error;
       },
     },
 
@@ -35,6 +35,7 @@ export default withAuth(
     // The pages configuration should match the same configuration in [...nextauth].ts. This is so that the next-auth Middleware is aware of your custom pages, so it won't end up redirecting to itself when an unauthenticated condition is met.
     pages: {
       signIn: "/signin",
+      error: "/error",
     },
   },
 )

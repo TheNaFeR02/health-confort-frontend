@@ -22,6 +22,9 @@ import { useRouter } from 'next/navigation'
 import { serverErrorSchema } from '@/types/serverError';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
+import GoogleIcon from '@mui/icons-material/Google';
+import { IconButton } from '@mui/material';
+import { useSession } from 'next-auth/react'
 
 
 
@@ -139,6 +142,16 @@ export default function SignIn() {
     setSnackbar({ ...snackbar, open: false });
   };
 
+  const signInWithGoogle = async () => {
+    console.log("signing in with google")
+    signIn("google", {
+      callbackUrl: "/dashboard",
+      redirect: true,
+    });
+
+    
+  }
+
   return (
     <Grid container component="main" sx={{ height: '100vh' }}>
       <Box sx={{ display: 'flex', justifyContent: 'center', position: 'absolute' }}>
@@ -227,6 +240,13 @@ export default function SignIn() {
             >
               Sign In
             </Button>
+            <Button
+              fullWidth
+              variant="outlined"
+              onClick={signInWithGoogle}
+            >
+              <span><GoogleIcon />
+              </span>             </Button>
             <Grid container>
               <Grid item xs>
                 <Link href="/password-reset" variant="body2">
@@ -234,7 +254,7 @@ export default function SignIn() {
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link href="/signup" variant="body2">
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>
