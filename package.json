@@ -12,12 +12,16 @@
     "@emotion/cache": "^11.11.0",
     "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.0",
+    "@hookform/devtools": "^4.3.1",
+    "@hookform/resolvers": "^3.3.4",
+    "@mui/icons-material": "^5.15.10",
     "@mui/material": "^5.15.10",
     "@mui/material-nextjs": "^5.15.9",
     "next": "14.1.0",
     "next-auth": "^4.24.6",
     "react": "^18",
     "react-dom": "^18",
+    "react-hook-form": "^7.50.1",
     "ts-to-zod": "^3.7.1"
   },
   "devDependencies": {

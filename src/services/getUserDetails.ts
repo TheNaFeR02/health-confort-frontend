@@ -23,11 +23,11 @@ export async function getUserDetails(apiToken: string): Promise<User | null> {
 
   try {
     const userValidated = userSchema.parse(user);
-    console.log("User type correctly parsed. \n User details", userValidated) 
+    console.log("User type correctly parsed. \n User details", userValidated)
     return userValidated;
   } catch (error) {
     console.error("Error parsing user details: ", error);
-    return null;
+    throw new Error(JSON.stringify(error));
   }
 
 }

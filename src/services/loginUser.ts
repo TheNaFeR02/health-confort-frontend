@@ -18,6 +18,6 @@ export async function loginUser(credentials: Record<"username" | "password", str
     return apiToken;
   } else {
     console.error('Failed to log in user. \n Message from server:', serverResponse);
-    return null;
+    throw new Error(JSON.stringify(serverResponse));
   }
 }

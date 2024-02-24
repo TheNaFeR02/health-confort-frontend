@@ -3,9 +3,9 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { User } from "next-auth"
 import { parseURL } from "@/utils/parseURL";
 import { z } from "Zod"
-import { loginUser } from "@/utils/loginUser";
+import { loginUser } from "@/services/loginUser";
 import { userSchema } from "@/types/userSchema"
-import { getUserDetails } from "@/utils/getUserDetails"
+import { getUserDetails } from "@/services/getUserDetails"
 
 
 export const options: NextAuthOptions = {
@@ -29,62 +29,48 @@ export const options: NextAuthOptions = {
         // You can also use the `req` object to obtain additional parameters
         // (i.e., the request IP address)
 
-        const apiToken = await loginUser(credentials);
-
-        if (apiToken) {
+        try {
+          const apiToken = await loginUser(credentials);
+          if (!apiToken) return null;
           return await getUserDetails(apiToken.key);
+        } catch (error) {
+          throw error instanceof Error ? new Error(error.message) : error;
         }
-
-        return null
       }
     })
   ],
 
   callbacks: {
     // Ref: https://authjs.dev/guides/basics/role-based-access-control#persisting-the-role
-    // async signIn({ user, account, profile, email, credentials }) {
-    //   console.log("----SIGNIN----");
 
-    //   const apiToken = user.key; // When using CredentialsProvider, <user> comes from authorize()
+    async jwt({ token, user, account }) {
 
-    //   const res = await fetch(parseURL("/api/auth/user/"), {
-    //     method: 'GET',
-    //     headers: {
-    //       "Authorization": `Token ${apiToken}`
-    //     }
-    //   });
+      if (user) {
+        token.role = user.role
+        token.key = user.key // Add the user key to the token, this is that will allow to the middleware to check if the user is authenticated. (authorize callback in middleware.ts)
+      }
 
-    //   if (!res.ok) {
-    //     console.error('Failed to fetch user details.');
-    //     return false;
-    //   }
-
-    //   const userDetails = await res.json();
-
-    //   // Merge user and userDetails
-    //   user = { ...user, ...userDetails };
-
-    //   try {
-    //     const userValidated = userSchema.parse(user);
-    //     console.log("user logged in: ", userValidated)
-    //     return true;
-    //   } catch (error) {
-    //     console.error("Error parsing user details: ", error);
-    //     return false;
-    //   }
-    // },
-
-    // async jwt({ token, user, account }) {
-    //   console.log("-----JWT------")
-    //   // console.log("token: ", token)
-    //   // console.log("user: ", user)
-    //   // console.log("account: ", account)
-    //   return token
-    // },
+      return token
+    },
 
     async session({ session, token }) {
+
+      if (session?.user) {
+        session.user.role = token.role
+        session.user.key = token.key
+        session.user.email = token.email
+      }
+
       return session
     },
 
   },
+
+  pages: {
+    // /api/auth/signin is the built-in signin page that is used by the CredentialsProvider
+    // if you want to use your own signin page, you can do so by specifying the path to your custom signin page here
+    // Ref: https://next-auth.js.org/configuration/pages
+    signIn: "/signin",
+  }
+
 }

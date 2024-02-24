@@ -6,7 +6,11 @@ import { createSchema } from 'ts-to-zod';
 
 declare module "next-auth" {
   interface Session {
-
+    user: {
+      role: string,
+      key?: string | null,
+      email?: string | null,
+    } & DefaultSession
   }
 
 
@@ -16,6 +20,11 @@ declare module "next-auth" {
     role: string;
   }
 
+}
 
-  // export const userSchema = createSchema<User>();
+declare module "next-auth/jwt" {
+  interface JWT extends DefaultJWT {
+    role: string,
+    key: string | null,
+  }
 }
