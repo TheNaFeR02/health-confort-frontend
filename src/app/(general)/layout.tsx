@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "../globals.css";
-import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
 import Providers from "../providers";
+import ResponsiveDrawer from "@/components/ResponsiveDrawer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,7 +20,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <Providers>
-          {children}
+          <ResponsiveDrawer>
+            {children}
+          </ResponsiveDrawer>
         </Providers>
       </body>
     </html>
