@@ -11,10 +11,10 @@ type ProvidersProps = {
   children: React.ReactNode;
 }
 
-const Providers: React.FC<ProvidersProps> = ({ children }:ProvidersProps) => {
+const Providers: React.FC<ProvidersProps> = ({ children }: ProvidersProps) => {
   return <ThemeProvider theme={theme}>
     <SessionProvider>
-      <AppRouterCacheProvider>
+      <AppRouterCacheProvider options={{ enableCssLayer: true }}>
         {children}
       </AppRouterCacheProvider>
     </SessionProvider>

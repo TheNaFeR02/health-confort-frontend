@@ -1,6 +1,6 @@
 'use client'
 
-import { Box, Container } from '@mui/material';
+import { Box, Button, Container } from '@mui/material';
 import { PieChart } from '@mui/x-charts/PieChart';
 import { Grid } from '@mui/material';
 import { BarChart } from '@mui/x-charts/BarChart';
@@ -16,7 +16,7 @@ type PatientsListProps = {
   receptions: Reception[];
 }
 
-const Receptions = ({patientsStats, receptions}: PatientsListProps) => {
+const Receptions = ({ patientsStats, receptions }: PatientsListProps) => {
   const [filterStatus, setFilterStatus] = useState('');
 
   return (
@@ -108,10 +108,17 @@ const Receptions = ({patientsStats, receptions}: PatientsListProps) => {
 
         <Box sx={{ display: 'flex', justifyContent: 'center', width: '100%', }}>
           <Box sx={{ width: '100%' }}>
+            {/* <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1em' }}> */}
             <ReceptionsTable filterStatus={filterStatus} receptions={receptions} />
+            {/* </div> */}
           </Box>
         </Box>
+
+
+
+
       </Box >
+      <Button variant="contained">Contained</Button>
     </>
   )
 }
