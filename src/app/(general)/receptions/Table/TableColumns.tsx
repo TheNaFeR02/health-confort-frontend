@@ -1,6 +1,6 @@
 import { MRT_ColumnDef } from "material-react-table";
 import { useMemo } from "react";
-import { Reception } from "./types/Invoice";
+import { Reception } from "./types/Reception";
 import { Chip } from "@mui/material";
 
 
@@ -17,8 +17,19 @@ export default function TableColumns(filterStatus: string) {
       },
       {
         accessorKey: "Date",
-        header: "Invoice date",
+        header: "Reception date",
         size: 100,
+        Cell: ({ cell }) => {
+          const dateString = cell.getValue() as string;
+          const date = new Date(dateString);
+
+
+          const day = date.getDate().toString();
+          const month = date.toLocaleDateString('en-US', { month: 'short' });
+          const year = date.getFullYear().toString();
+
+          return <p>{day + " " + month + " " + year}</p>
+        }
       },
       {
         accessorKey: "Customers", //normal accessorKey
@@ -35,8 +46,9 @@ export default function TableColumns(filterStatus: string) {
         header: "Due Date",
         size: 150,
         Cell: ({ cell }) => {
+          const dateString = cell.getValue() as string;
+          const date = new Date(dateString);
 
-          const date = cell.getValue() as Date;
 
           const day = date.getDate().toString();
           const month = date.toLocaleDateString('en-US', { month: 'short' });

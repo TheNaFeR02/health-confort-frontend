@@ -17,6 +17,11 @@ import MailIcon from '@mui/icons-material/Mail';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
+import Link from "next/link";
+import Collapse from '@mui/material/Collapse';
+import ListSubheader from '@mui/material/ListSubheader';
+import ExpandLess from '@mui/icons-material/ExpandLess';
+import ExpandMore from '@mui/icons-material/ExpandMore';
 
 const drawerWidth = 240;
 
@@ -30,9 +35,14 @@ interface Props {
 }
 
 export default function ResponsiveDrawer(props: Props) {
-  const { window} = props;
+  const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [isClosing, setIsClosing] = React.useState(false);
+  const [openPatient, setOpenPatient] = React.useState(true);
+
+  const handleClick = () => {
+    setOpenPatient(!openPatient);
+  };
 
   const handleDrawerClose = () => {
     setIsClosing(true);
@@ -53,17 +63,47 @@ export default function ResponsiveDrawer(props: Props) {
     <div>
       <Toolbar />
       <Divider />
-      <List>
-        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
+      <List
+        sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
+        component="nav"
+        aria-labelledby="nested-list-subheader"
+        subheader={
+          <ListSubheader component="div" id="nested-list-subheader">
+            Nested List Items
+          </ListSubheader>
+        }
+      >
+
+        <ListItem disablePadding >
+          <ListItemButton component={Link} href="/receptions">
+            <ListItemIcon  >
+              <InboxIcon />
+            </ListItemIcon>
+            <ListItemText primary={"Receptions"} />
+          </ListItemButton>
+        </ListItem>
+
+        
+
+        <ListItemButton onClick={handleClick}>
+          <ListItemIcon>
+            <InboxIcon />
+          </ListItemIcon>
+          <ListItemText primary="Patients" />
+          {openPatient ? <ExpandLess /> : <ExpandMore />}
+        </ListItemButton>
+        <Collapse in={openPatient} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding>
+            <ListItemButton component={Link} href="/patients/create"
+              sx={{ pl: 4 }}>
               <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                <InboxIcon />
               </ListItemIcon>
-              <ListItemText primary={text} />
+              <ListItemText primary="Create Patient" />
             </ListItemButton>
-          </ListItem>
-        ))}
+          </List>
+        </Collapse>
+
       </List>
       <Divider />
       <List>
@@ -143,15 +183,6 @@ export default function ResponsiveDrawer(props: Props) {
         sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
       >
         <Toolbar />
-        {/* <Typography paragraph>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-          tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non
-        </Typography>
-        <Typography paragraph>
-          Consequat mauris nunc congue nisi vitae suscipit. Fringilla est ullamcorper
-          eget nulla facilisi etiam dignissim diam. Pulvinar elementum integer enim
-          neque volutpat ac tincidunt. Ornare suspendisse sed nisi lacus sed viverra
-        </Typography> */}
         {props.children}
       </Box>
     </Box>

@@ -8,13 +8,15 @@ import { BarChart } from '@mui/x-charts/BarChart';
 // import { sumInvoices } from '@/repository/local/invoices/invoices_summary/data/summary';
 import { useState } from 'react';
 import { PatientsStats } from './types/PatientsStats';
-import InvoicesTable from './Table/Table';
+import ReceptionsTable from './Table/Table';
+import { Reception } from './Table/types/Reception';
 
 type PatientsListProps = {
   patientsStats: PatientsStats;
+  receptions: Reception[];
 }
 
-const PatientsList = ({patientsStats}: PatientsListProps) => {
+const Receptions = ({patientsStats, receptions}: PatientsListProps) => {
   const [filterStatus, setFilterStatus] = useState('');
 
   return (
@@ -106,11 +108,11 @@ const PatientsList = ({patientsStats}: PatientsListProps) => {
 
         <Box sx={{ display: 'flex', justifyContent: 'center', width: '100%', }}>
           <Box sx={{ width: '100%' }}>
-            <InvoicesTable filterStatus={filterStatus} />
+            <ReceptionsTable filterStatus={filterStatus} receptions={receptions} />
           </Box>
         </Box>
       </Box >
     </>
   )
 }
-export default PatientsList
+export default Receptions

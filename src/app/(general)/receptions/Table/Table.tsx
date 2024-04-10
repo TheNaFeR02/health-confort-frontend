@@ -4,8 +4,7 @@ import {
   MaterialReactTable,
   useMaterialReactTable,
 } from "material-react-table";
-import { Invoice } from "./types/Invoice";
-import { invoices } from "./data/invoices";
+import { Reception } from "./types/Reception";
 import TableColumn from "./TableColumns";
 import TopToolbarCustomActions from "./TopToolbarCustomActions";
 import ToolbarInternalActions from "./ToolbarInternalActions";
@@ -13,16 +12,15 @@ import BottomToolbarCustomActions from "./BottomToolbarCustomActions";
 import dayjs, { Dayjs } from 'dayjs';
 
 
-
 // ----------------------------------------------------------------------------------------
-const initialData: Invoice[] = invoices;
-const InvoicesTable = ({ filterStatus }: { filterStatus: string }) => {
+const ReceptionsTable = ({ filterStatus, receptions  }: { filterStatus: string, receptions: Reception[] }) => {
+  const initialData = receptions;
   const [startDate, setStartDate] = useState<Dayjs | null>(dayjs('2024-02-06'));
   const [endDate, setEndDate] = useState<Dayjs | null>(dayjs('2024-02-06'));
   const columns = TableColumn(filterStatus);
 
-  const [data, setData] = useState<Invoice[]>(initialData);
-  const [dataByDate, setDataByDate] = useState<Invoice[]>(initialData);
+  const [data, setData] = useState<Reception[]>(initialData);
+  const [dataByDate, setDataByDate] = useState<Reception[]>(initialData);
 
 
   const filterByDateRange = (startDate: Dayjs | null, endDate: Dayjs | null) => {
@@ -87,4 +85,4 @@ const InvoicesTable = ({ filterStatus }: { filterStatus: string }) => {
   return <MaterialReactTable table={table} />;
 };
 
-export default InvoicesTable;
+export default ReceptionsTable;

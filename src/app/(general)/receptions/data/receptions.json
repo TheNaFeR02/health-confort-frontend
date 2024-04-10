@@ -1,0 +1,83 @@
+[
+  {
+    "Number": "INV1578932",
+    "Date": "2022-12-31T00:00:00Z",
+    "Customers": "Medilaboral / Construcciones Bolivar",
+    "TotalAmount": 150000,
+    "DueDate": "2024-02-06T00:00:00Z",
+    "Status": "Pending",
+    "Email": "acunafer.02@gmail.com"
+  },
+  {
+    "Number": "INV1578932",
+    "Date": "2022-12-31T00:00:00Z",
+    "Customers": "Medilaboral / Construcciones Bolivar",
+    "TotalAmount": 150000,
+    "DueDate": "2024-01-06T00:00:00Z",
+    "Status": "Pending",
+    "Email": "games_nafer@hotmail.com"
+  },
+  {
+    "Number": "INV1578932",
+    "Date": "2022-12-31T00:00:00Z",
+    "Customers": "Shalem Janna Uninorte",
+    "TotalAmount": 150000,
+    "DueDate": "2024-01-07T00:00:00Z",
+    "Status": "Overdue",
+    "Email": "jannas@uninorte.edu.co"
+  },
+  {
+    "Number": "INV1578932",
+    "Date": "2022-12-31T00:00:00Z",
+    "Customers": "Shalem Janna Gmail",
+    "TotalAmount": 150000,
+    "DueDate": "2024-01-08T00:00:00Z",
+    "Status": "Pending",
+    "Email": "sjanna10@gmail.com"
+  },
+  {
+    "Number": "INV1578932",
+    "Date": "2022-12-31T00:00:00Z",
+    "Customers": "Medilaboral / Construcciones Bolivar",
+    "TotalAmount": 150000,
+    "DueDate": "2023-12-06T00:00:00Z",
+    "Status": "Paid",
+    "Email": ""
+  },
+  {
+    "Number": "INV1578932",
+    "Date": "2022-12-31T00:00:00Z",
+    "Customers": "Medilaboral / Construcciones Bolivar",
+    "TotalAmount": 150000,
+    "DueDate": "2023-12-07T00:00:00Z",
+    "Status": "Paid",
+    "Email": ""
+  },
+  {
+    "Number": "INV1578932",
+    "Date": "2022-12-31T00:00:00Z",
+    "Customers": "Medilaboral / Construcciones Bolivar",
+    "TotalAmount": 150000,
+    "DueDate": "2023-12-08T00:00:00Z",
+    "Status": "Pending",
+    "Email": ""
+  },
+  {
+    "Number": "INV1578932",
+    "Date": "2022-12-31T00:00:00Z",
+    "Customers": "Medilaboral / Construcciones Bolivar",
+    "TotalAmount": 150000,
+    "DueDate": "2023-01-15T00:00:00Z",
+    "Status": "Overdue",
+    "Email": ""
+  },
+  {
+    "Number": "INV1578932",
+    "Date": "2022-12-31T00:00:00Z",
+    "Customers": "Medilaboral / Construcciones Bolivar",
+    "TotalAmount": 150000,
+    "DueDate": "1999-05-03T00:00:00Z",
+    "Status": "Overdue",
+    "Email": ""
+  }
+]

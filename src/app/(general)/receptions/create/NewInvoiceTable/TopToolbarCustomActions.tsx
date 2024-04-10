@@ -6,13 +6,13 @@ export default function TopToolbarCustomActions() {
     <Box
       sx={{
         bgcolor: "background.paper",
-        color: "onSurface.main",
+        // color: "text.secondary",
         width: "100%",
         p: 1.5,
-        // color: "surface.main",
+        color: "surface.main",
       }}
     >
-      <Typography variant="body1" sx={{fontWeight: 'bold'}}>Invoices</Typography>
+      <Typography variant="body1">Companies list</Typography>
     </Box>
   );
 }

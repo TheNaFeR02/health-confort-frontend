@@ -1,0 +1,40 @@
+{
+  "patients": [
+    {
+      "name": "John",
+      "last_name": "Doe",
+      "document_type": "CC",
+      "document_id": "123456",
+      "gender": "Male",
+      "email": "john.doe@example.com",
+      "phone": "1234567890",
+      "birthdate": "1980-01-01",
+      "marital_status": "Single",
+      "blood_type": "A+"
+    },
+    {
+      "name": "Jane",
+      "last_name": "Doe",
+      "document_type": "CC",
+      "document_id": "234567",
+      "gender": "Female",
+      "email": "jane.doe@example.com",
+      "phone": "2345678901",
+      "birthdate": "1985-02-02",
+      "marital_status": "Married",
+      "blood_type": "B-"
+    },
+    {
+      "name": "Bob",
+      "last_name": "Smith",
+      "document_type": "CC",
+      "document_id": "345678",
+      "gender": "Male",
+      "email": "bob.smith@example.com",
+      "phone": "3456789012",
+      "birthdate": "1990-03-03",
+      "marital_status": "Divorced",
+      "blood_type": "O+"
+    }
+  ]
+}
